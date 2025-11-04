@@ -1,0 +1,6 @@
+/logs/*
+.venv
+.pytest_cache
+.gemini
+__pycache__
+.env

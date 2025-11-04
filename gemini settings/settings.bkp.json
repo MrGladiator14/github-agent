@@ -1,0 +1,176 @@
+{
+    "security": {
+        "auth": {
+            "selectedType": "oauth-personal"
+        }
+    },
+    "mcp": {
+        "servers": [
+            {
+                "name": "pr-agent-mcp",
+                "version": "1.0.0",
+                "mcpServer": {
+                    "command": "C:\\Developer\\Codebase\\gitHub-MCP\\.venv\\Scripts\\python.exe",
+                    "args": [
+                        "c:\\Developer\\Codebase\\gitHub-MCP\\server.py"
+                    ],
+                    "cwd": "c:\\Developer\\Codebase\\gitHub-MCP",
+                    "transport": "stdio",
+                    "timeout": 60000
+                },
+                "capabilities": {
+                    "tools": [
+                        {
+                            "name": "analyze_file_changes",
+                            "description": "Analyze file changes between branches and suggest appropriate PR template",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {
+                                    "base_branch": {
+                                        "type": "string",
+                                        "description": "Base branch to compare against (default: main)",
+                                        "default": "main"
+                                    },
+                                    "include_diff": {
+                                        "type": "boolean",
+                                        "description": "Whether to include the full diff content",
+                                        "default": true
+                                    },
+                                    "max_diff_lines": {
+                                        "type": "number",
+                                        "description": "Maximum number of diff lines to include",
+                                        "default": 500
+                                    },
+                                    "working_directory": {
+                                        "type": "string",
+                                        "description": "Directory to run git commands in",
+                                        "default": ""
+                                    },
+                                    "include_summary": {
+                                        "type": "boolean",
+                                        "description": "Whether to include a summary of changes",
+                                        "default": true
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "name": "get_pr_templates",
+                            "description": "List available PR templates with their content",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {}
+                            }
+                        },
+                        {
+                            "name": "suggest_template",
+                            "description": "Analyze changes and suggest the most appropriate PR template",
+                            "parameters": {
+                                "type": "object",
+                                "required": [
+                                    "changes_summary",
+                                    "change_type"
+                                ],
+                                "properties": {
+                                    "changes_summary": {
+                                        "type": "string",
+                                        "description": "Description of the changes made"
+                                    },
+                                    "change_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "bug",
+                                            "feature",
+                                            "docs",
+                                            "refactor",
+                                            "test",
+                                            "performance",
+                                            "security"
+                                        ],
+                                        "description": "Type of change"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "name": "get_recent_actions_events",
+                            "description": "Get recent GitHub Actions events received via webhook",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {
+                                    "limit": {
+                                        "type": "number",
+                                        "description": "Maximum number of events to return",
+                                        "default": 3
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "name": "get_workflow_status",
+                            "description": "Get the current status of GitHub Actions workflows",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {
+                                    "workflow_name": {
+                                        "type": "string",
+                                        "description": "Optional workflow name to filter by"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "name": "create_deployment_summary",
+                            "description": "Generate a deployment summary for team communication",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {}
+                            }
+                        },
+                        {
+                            "name": "generate_pr_status_report",
+                            "description": "Generate a comprehensive PR status report including CI/CD results",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {}
+                            }
+                        },
+                        {
+                            "name": "troubleshoot_workflow_failure",
+                            "description": "Help troubleshoot a failing GitHub Actions workflow",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {}
+                            }
+                        }
+                    ]
+                },
+                "initializationOptions": {
+                    "githubToken": "${env:GITHUB_TOKEN}",
+                    "defaultBranch": "main",
+                    "templatesDir": "templates",
+                    "timeouts": {
+                        "request": 30000,
+                        "shutdown": 10000,
+                        "startup": 600
+                    },
+                    "rateLimiting": {
+                        "enabled": true,
+                        "maxRequests": 1000,
+                        "timeWindow": 3000
+                    }
+                },
+                "settings": {
+                    "mcp.enable": true,
+                    "mcp.autoStart": true,
+                    "mcp.debug": false,
+                    "mcp.logLevel": "debug",
+                    "mcp.logFile": "logs/mcp_server.log",
+                    "mcp.maxLogFileSize": "10MB",
+                    "mcp.maxLogFiles": 5,
+                    "mcp.logFormat": "json"
+                }
+            }
+        ]
+    }
+}
