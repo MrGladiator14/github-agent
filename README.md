@@ -2,8 +2,8 @@
 
 A powerful integration between GitHub Actions and MCP (Model Control Protocol) that enables intelligent CI/CD workflow automation and monitoring.
 
-![screenshot 1](static\Screenshot%202025-10-31%20212514.png)
-![screenshot 2](static\Screenshot%202025-10-31%20220511.png)
+![screenshot 1](static\Screenshot1.png)
+![screenshot 2](static\Screenshot2.png)
 
 ## Features
 
